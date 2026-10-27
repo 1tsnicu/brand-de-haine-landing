@@ -1,26 +1,105 @@
 @import "tailwindcss";
 
+@theme {
+  --color-carbon: #0B0C0E;
+  --color-asphalt: #1A1C1F;
+  --color-fog: #D9D6CE;
+  --color-denim: #4A5A70;
+  --color-concrete: #7C8083;
+  --color-mist: #B8B5AE;
+  --color-bordo: #6B1427;
+  --color-oxblood: #2E0A12;
+  --color-bordo-light: #A02A3E;
+
+  --font-display: var(--font-display), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-body: var(--font-body), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --flashlight-x: 50vw;
+  --flashlight-y: 50vh;
+  --flashlight-radius: 340px;
+  --ambient-opacity: 0.15;
+  --night-depth: 0;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base resets & typography */
+html {
+  background-color: #0B0C0E;
+  color: #D9D6CE;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: #0B0C0E;
+  color: #D9D6CE;
+  font-family: var(--font-body);
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+/* Dynamic nocturnal vignette deepening on scroll */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 35;
+  background: radial-gradient(circle at center, transparent 40%, rgba(11, 12, 14, 0.45) 100%);
+  opacity: calc(0.2 + var(--night-depth) * 0.5);
+  transition: opacity 0.3s ease-out;
+}
+
+/* Subtle custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0C0E;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2E0A12;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6B1427;
+}
+
+/* Focus styles for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid #6B1427;
+  outline-offset: 3px;
+}
+
+/* 3D perspective utility for photocard flip */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }
